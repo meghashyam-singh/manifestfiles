@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bus
+  template:
+    metadata:
+      labels:
+        app: bus
+    spec:
+      containers:
+        - name: cont1
+          image: nginx
+          ports:
+            - containerPort: 80
+          command: ["/bin/bash", "-c", "while true; do echo welcome to devops practice; sleep 5; done"]
+          volumeMounts:
+            - name: myvolume
+              mountPath: "/root/sujji"
+          envFrom:
+            - configMapRef:
+                name: mycm4
+            - configMapRef:
+                name: mycm1
+          env:
+            - name: desh
+              valueFrom:
+                configMapKeyRef:
+                  name: mycm2
+                  key: desh
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "10Mi"
+            limits:
+              cpu: "200m"
+              memory: "15Mi"
+
+        - name: cont2
+          image: httpd
+          ports:
+            - containerPort: 80
+          command: ["/bin/bash", "-c", "while true; do echo welcome kubernetes practice; sleep 5; done"]
+          volumeMounts:
+            - name: myvolume
+              mountPath: "/root/nishi"
+          env:
+            - name: latha
+              valueFrom:
+                configMapKeyRef:
+                  name: mycm3
+                  key: latha
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "10Mi"
+            limits:
+              cpu: "200m"
+              memory: "15Mi"
+
+      volumes:
+        - name: myvolume
+          persistentVolumeClaim:
+            claimName: mypvc
