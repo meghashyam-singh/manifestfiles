@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: mycm3
-  namespace: default
-data:
-  latha: "This is the value for latha"
