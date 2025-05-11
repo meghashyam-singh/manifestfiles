@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: mycm2
-  namespace: default
-data:
-  desh: "This is the value for desh"
